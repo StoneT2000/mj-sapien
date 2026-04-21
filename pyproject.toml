@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mj-sapien"
+dynamic = ["version"]
+description = "TBD"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "tqdm>=4.67.3",
+    "tyro>=1.0.13",
+    "viser>=1.0.26"
+]
+
+[tool.hatch.version]
+path = "src/mj_sapien/__init__.py"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.2",
+    "pytest>=9.0.3",
+    "pre-commit>=4.5.1"
+]
