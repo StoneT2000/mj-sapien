@@ -9,9 +9,14 @@ description = "TBD"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    # utilities/tooling
     "tqdm>=4.67.3",
     "tyro>=1.0.13",
-    "viser>=1.0.26"
+    "viser>=1.0.26",
+    # handling numbers
+    "numpy>=2",
+    # simulation
+    "mujoco-warp"
 ]
 
 [tool.hatch.version]
