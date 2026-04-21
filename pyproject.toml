@@ -15,6 +15,7 @@ dependencies = [
     "viser>=1.0.26",
     # handling numbers
     "numpy>=2",
+    "torch>=2.7.0",
     # simulation
     "mujoco-warp",
     # RL and gym
