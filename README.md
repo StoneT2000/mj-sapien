@@ -22,3 +22,4 @@
 - automated cloud tests for performance + check rendering
 - document API design decisions and why I made certain choices so I can blog about it
 - play with AI code generation more, see how good it really is or if its still a lot of slop
+- make sure certain fields are immutable or whole dataclasses are immutable, especially w.r.t simulation configs

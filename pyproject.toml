@@ -16,7 +16,9 @@ dependencies = [
     # handling numbers
     "numpy>=2",
     # simulation
-    "mujoco-warp"
+    "mujoco-warp",
+    # RL and gym
+    "gymnasium>=1.1"
 ]
 
 [tool.hatch.version]
@@ -28,3 +30,9 @@ dev = [
     "pytest>=9.0.3",
     "pre-commit>=4.5.1"
 ]
+[tool.ruff.lint]
+select = [
+    "E", "F", "B", "I",
+]
+[tool.ruff.lint.pycodestyle]
+max-line-length = 100
