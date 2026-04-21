@@ -20,3 +20,4 @@
 - throw warnings properly, log everything properly
 - returned rewards should be a dict, not one value. Support more configurable experimentation/config tooling for rewards and doing curricula with rewards.
 - automated cloud tests for performance + check rendering
+- document API design decisions and why I made certain choices so I can blog about it
