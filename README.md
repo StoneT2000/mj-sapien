@@ -21,3 +21,4 @@
 - returned rewards should be a dict, not one value. Support more configurable experimentation/config tooling for rewards and doing curricula with rewards.
 - automated cloud tests for performance + check rendering
 - document API design decisions and why I made certain choices so I can blog about it
+- play with AI code generation more, see how good it really is or if its still a lot of slop
