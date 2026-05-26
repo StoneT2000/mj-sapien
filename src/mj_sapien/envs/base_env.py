@@ -1,9 +1,11 @@
 from dataclasses import dataclass
 from typing import Any, NamedTuple
 
+import torch
+
 from mj_sapien.sim import backend
 
-import torch
+
 @dataclass(frozen=True)
 class BaseEnvCfg:
     num_envs: int = 1
@@ -32,7 +34,7 @@ class BaseEnv:
         and calling all relevant functions such as `_load_scene`
         """
         pass
-    
+
     def _initialize_episode(self, env_idx: torch.Tensor):
         """
         Initialize the episode by setting the appropriate sim state for the environment
@@ -62,7 +64,7 @@ class BaseEnv:
                 self._reconfigure()
 
         return self.get_obs(), self.evaluate()
-        
+
     def step(self):
         pass
 
