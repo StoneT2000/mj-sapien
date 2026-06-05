@@ -17,7 +17,7 @@ dependencies = [
     "numpy>=2",
     "torch>=2.7.0",
     # simulation
-    "mujoco-warp",
+    "newton",
     # RL and gym
     "gymnasium>=1.1"
 ]
