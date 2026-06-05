@@ -3,6 +3,7 @@ from dataclasses import dataclass
 import tyro
 
 from mj_sapien.envs.base_env import BaseEnv, BaseEnvCfg
+from mj_sapien.envs.tasks.pick_cube import PickCubeTask, PickCubeTaskCfg
 
 
 @dataclass
@@ -13,7 +14,7 @@ class Args:
 
 def main(args: Args):
     cfg = args.env_cfg
-    env = BaseEnv(cfg)
+    env = PickCubeTask(cfg)
     env.reset()
 
 

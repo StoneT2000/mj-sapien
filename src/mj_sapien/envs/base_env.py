@@ -3,6 +3,8 @@ from typing import Any, NamedTuple
 
 import torch
 
+from mj_sapien.agents.base_agent import BaseAgent
+from mj_sapien.envs.scene import NewtonScene, Scene
 from mj_sapien.sim import backend
 
 
@@ -18,8 +20,14 @@ class ResetOptions(NamedTuple):
 
 
 class BaseEnv:
+
+    scene: Scene
+    agent: BaseAgent
+
     def __init__(self, cfg: BaseEnvCfg):
         self.cfg = cfg
+        self._reconfigure()
+        self.reset()
 
     ### Scene management and instantiation functions ###
     def _load_scene(self):
@@ -33,7 +41,9 @@ class BaseEnv:
         Reconfigures the environment. This is essentially equivalent to deleting the environment
         and calling all relevant functions such as `_load_scene`
         """
-        pass
+        self.scene = NewtonScene()
+        self._load_scene()
+        self.scene.finalize()
 
     def _initialize_episode(self, env_idx: torch.Tensor):
         """

@@ -1,3 +1,4 @@
+from mj_sapien.agents.robots.franka_research_3.robot import FrankaResearch3Robot
 from mj_sapien.envs.base_env import BaseEnv, BaseEnvCfg
 
 
@@ -10,10 +11,6 @@ class PickCubeTask(BaseEnv):
         super().__init__(cfg)
 
     def _load_scene(self):
-        pass
-
-    def _reconfigure(self):
-        pass
-
-    def get_obs(self):
-        pass
+        self.robot = FrankaResearch3Robot()
+        builder = self.robot._load_agent()
+        self.scene.add_builder(builder)
