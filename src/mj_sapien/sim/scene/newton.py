@@ -1,27 +1,13 @@
 import newton
 import warp as wp
+from mj_sapien.sim.scene import BaseScene, BaseSceneConfig
+from dataclasses import dataclass
 
-class Scene:
-    def __init__(self):
-        pass
+@dataclass(frozen=True)
+class NewtonSceneConfig(BaseSceneConfig):
+    pass
 
-    ### Building and scene compilation functions ###
-    def add_builder(self, builder):
-        """
-        Add a builder to the scene, which is used to construct a part of the scene
-        """
-        pass
-    def finalize(self):
-        """
-        Finalize the scene and compile it, ready for simulation/rendering
-        """
-
-    ### Simulation functions ###
-    def step(self):
-        raise NotImplementedError("Step function not implemented for this scene type")
-
-
-class NewtonScene(Scene):
+class NewtonScene(BaseScene):
     def __init__(self):
         super().__init__()
         self._newton_scene = newton.ModelBuilder()

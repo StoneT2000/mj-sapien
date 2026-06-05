@@ -14,14 +14,24 @@ class BaseAgent:
     from this class.
     """
 
+    controller: BaseController
+    """the current active controller of the agent"""
+
     def __init__(self, cfg: BaseAgentConfig):
         self.cfg = cfg
 
-    def _load_agent(self):
+    def _load(self):
         """
-        Load a model of this agent into the environment
+        Load a model of this agent into the environment by returning a builder
         """
         raise NotImplementedError()
+
+    def reset(self):
+        """
+        Reset the agent's state if there is any.
+        """
+        if self.controller.has_state:
+            self.controller.reset()
 
     @property
     def controllers(self) -> dict[str, BaseController]:

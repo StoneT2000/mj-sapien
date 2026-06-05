@@ -12,8 +12,6 @@ class PickCubeTask(BaseEnv):
         super().__init__(cfg)
 
     def _load_scene(self):
-        self.robot = FrankaResearch3Robot()
-        builder = self.robot._load_agent()
         self.scene.add_builder(builder)
 
         builder = newton.ModelBuilder()
@@ -29,3 +27,12 @@ class PickCubeTask(BaseEnv):
         builder = newton.ModelBuilder()
         builder.add_ground_plane(cfg=newton.ModelBuilder.ShapeConfig(mu=0.3))
         self.scene.add_builder(builder)
+
+    def _load_agent(self):
+        robot = FrankaResearch3Robot()
+        # create the initial builder for our pre-built robot
+        builder = robot._load()
+        # you can modify builder or robot for your specific task before adding to scene and returning it
+        self.scene.add_builder(builder)
+        return robot 
+ 

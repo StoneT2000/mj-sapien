@@ -4,9 +4,9 @@ from typing import Any, NamedTuple
 import torch
 import warp as wp
 from mj_sapien.agents.base_agent import BaseAgent
-from mj_sapien.envs.scene import NewtonScene, Scene
+from mj_sapien.sim.scene import BaseScene
+from mj_sapien.sim.scene.newton import NewtonScene
 from mj_sapien.sim import backend
-
 
 @dataclass(frozen=True)
 class BaseEnvConfig:
@@ -21,7 +21,7 @@ class ResetOptions(NamedTuple):
 
 class BaseEnv:
 
-    scene: Scene
+    scene: BaseScene
     agent: BaseAgent
 
     def __init__(self, cfg: BaseEnvConfig):
@@ -34,14 +34,21 @@ class BaseEnv:
         """
         Loads all scene rigid bodies, articulations etc.
         """
-        pass
+        raise NotImplementedError()
+
+    def _load_agent(self) -> BaseAgent:
+        """
+        Loads the interactive agent/robot.
+        """
+        raise NotImplementedError()
 
     def _reconfigure(self):
         """
         Reconfigures the environment. This is essentially equivalent to deleting the environment
-        and calling all relevant functions such as `_load_scene`
+        and calling all relevant functions such as `_load_scene` and `_load_agent`.
         """
         self.scene = NewtonScene()
+        self.agent = self._load_agent()
         self._load_scene()
         self.scene.finalize()
 
@@ -72,8 +79,16 @@ class BaseEnv:
         if options is not None:
             if options["reconfigure"]:
                 self._reconfigure()
+        self.agent.reset()
 
         return self.get_obs(), self.evaluate()
+
+
+    def _step_action(self, action: torch.Tensor):
+        """
+        Step the environment forward by one control step given an action.
+        """
+
 
     def step(self, action):
         self.scene.step(action)

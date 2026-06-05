@@ -4,7 +4,7 @@ import warp as wp
 
 class FrankaResearch3Robot(BaseAgent):
 
-    def _load_agent(self):
+    def _load(self):
         builder = newton.ModelBuilder()
         builder.rigid_gap = 0.005
         newton.solvers.SolverMuJoCo.register_custom_attributes(builder)
