@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 @dataclass(frozen=True)
-class BaseAgentCfg:
+class BaseAgentConfig:
     pass
 
 
@@ -10,8 +10,8 @@ class BaseAgent:
     the environment. Users implementing their own agents/robots should inherit from this class.
     """
 
-    def __init__(self, cfg: BaseAgentCfg = BaseAgentCfg()):
-        pass
+    def __init__(self, cfg: BaseAgentConfig = BaseAgentConfig()):
+        self.cfg = cfg
 
     def _load_agent(self):
         """

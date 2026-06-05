@@ -1,3 +1,3 @@
-from .pick_cube import PickCubeTask, PickCubeTaskCfg
+from .pick_cube import PickCubeTask, PickCubeTaskConfig
 
-__all__ = ["PickCubeTask", "PickCubeTaskCfg"]
+__all__ = ["PickCubeTask", "PickCubeTaskConfig"]

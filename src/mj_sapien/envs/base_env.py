@@ -2,14 +2,14 @@ from dataclasses import dataclass
 from typing import Any, NamedTuple
 
 import torch
-
+import warp as wp
 from mj_sapien.agents.base_agent import BaseAgent
 from mj_sapien.envs.scene import NewtonScene, Scene
 from mj_sapien.sim import backend
 
 
 @dataclass(frozen=True)
-class BaseEnvCfg:
+class BaseEnvConfig:
     num_envs: int = 1
     sim_backend: backend.SimBackend = "mujoco_cpu"
     render_backend: backend.RenderBackend = "mujoco_warp"
@@ -24,7 +24,7 @@ class BaseEnv:
     scene: Scene
     agent: BaseAgent
 
-    def __init__(self, cfg: BaseEnvCfg):
+    def __init__(self, cfg: BaseEnvConfig):
         self.cfg = cfg
         self._reconfigure()
         self.reset()
@@ -75,14 +75,14 @@ class BaseEnv:
 
         return self.get_obs(), self.evaluate()
 
-    def step(self):
-        pass
+    def step(self, action):
+        self.scene.step(action)
 
     def render(self):
         """
         Render the current state of the environment
         """
-        pass
+        self.scene.render()
 
     ### Sim state management functions ###
     def get_state_dict(self) -> dict[str, Any]:
