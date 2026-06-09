@@ -5,7 +5,7 @@ import torch
 import warp as wp
 from mj_sapien.agents.base_agent import BaseAgent
 from mj_sapien.sim.scene import BaseScene
-from mj_sapien.sim.scene.newton import NewtonScene
+from mj_sapien.sim.scene.newton import NewtonScene, NewtonSceneConfig
 from mj_sapien.sim import backend
 
 @dataclass(frozen=True)
@@ -47,7 +47,7 @@ class BaseEnv:
         Reconfigures the environment. This is essentially equivalent to deleting the environment
         and calling all relevant functions such as `_load_scene` and `_load_agent`.
         """
-        self.scene = NewtonScene()
+        self.scene = NewtonScene(cfg=NewtonSceneConfig())
         self.agent = self._load_agent()
         self._load_scene()
         self.scene.finalize()

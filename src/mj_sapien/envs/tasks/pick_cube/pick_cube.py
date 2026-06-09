@@ -12,7 +12,7 @@ class PickCubeTask(BaseEnv):
         super().__init__(cfg)
 
     def _load_scene(self):
-        self.scene.add_builder(builder)
+        # self.scene.add_builder(builder)
 
         builder = newton.ModelBuilder()
         builder.add_shape_box(

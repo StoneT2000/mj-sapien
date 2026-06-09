@@ -8,8 +8,8 @@ class NewtonSceneConfig(BaseSceneConfig):
     pass
 
 class NewtonScene(BaseScene):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, cfg: NewtonSceneConfig):
+        super().__init__(cfg)
         self._newton_scene = newton.ModelBuilder()
         self.viewer = newton.viewer.ViewerGL(headless=False)
         self.sim_time = 0.0

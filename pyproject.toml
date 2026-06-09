@@ -13,9 +13,13 @@ dependencies = [
     "tqdm>=4.67.3",
     "tyro>=1.0.13",
     "viser>=1.0.26",
+    "gitpython>=3.1.50",
     # handling numbers
     "numpy>=2",
     "torch>=2.7.0",
+    "scipy>=1.17.1",
+    "pycollada>=0.9.3",
+    "trimesh>=4.12.2",
     # simulation
     "newton",
     "mujoco-warp",

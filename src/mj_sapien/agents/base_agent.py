@@ -17,8 +17,8 @@ class BaseAgent:
     controller: BaseController
     """the current active controller of the agent"""
 
-    def __init__(self, cfg: BaseAgentConfig):
-        self.cfg = cfg
+    def __init__(self, cfg: BaseAgentConfig | None = None):
+        self.cfg = cfg if cfg is not None else BaseAgentConfig()
 
     def _load(self):
         """
@@ -30,6 +30,7 @@ class BaseAgent:
         """
         Reset the agent's state if there is any.
         """
+        return
         if self.controller.has_state:
             self.controller.reset()
 
