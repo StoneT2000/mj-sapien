@@ -23,7 +23,8 @@ def main(args: Args):
             action = torch.rand(size=(8, )) * 2 - 1
             wp.copy(dest=env.scene.control.joint_target_pos[:7], src=wp.from_torch(action[:7]))
             if env.scene.viewer.should_step():
-                env.step(action)
+                obs, rew, term, trunc, info = env.step(action)
+                print(t, obs)
             env.render()
 
 

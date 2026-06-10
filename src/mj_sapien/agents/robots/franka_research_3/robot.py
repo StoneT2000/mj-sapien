@@ -13,7 +13,7 @@ class FrankaResearch3Robot(BaseAgent):
             newton.utils.download_asset("franka_emika_panda") / "urdf/fr3_franka_hand.urdf",
             xform=wp.transform(wp.vec3(0, 0, 0), wp.quat_identity()),
             floating=False,
-            enable_self_collisions=False,
+            enable_self_collisions=True,
             parse_visuals_as_colliders=False,
         )
 

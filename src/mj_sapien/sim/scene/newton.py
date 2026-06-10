@@ -26,32 +26,38 @@ class NewtonScene(BaseScene):
         self._model = self._newton_scene.finalize()
         contact_max = 16384
         self._model.rigid_contact_max = contact_max
-        self.collision_pipeline = newton.CollisionPipeline(
-            self._model,
-            # TODO (stao): understand and make notes on these choices
-            reduce_contacts=True,
-            rigid_contact_max=contact_max,
-            broad_phase="nxn"
-        )
+        # self.collision_pipeline = newton.CollisionPipeline(
+        #     self._model,
+        #     # TODO (stao): understand and make notes on these choices
+        #     reduce_contacts=True,
+        #     rigid_contact_max=contact_max,
+        #     broad_phase="nxn"
+        # )
         self.solver = newton.solvers.SolverMuJoCo(
             self._model,
-            solver="newton",
-            integrator="implicitfast",
-            iterations=15,
-            ls_iterations=100,
+            # solver="newton",
+            # integrator="implicitfast",
+            # iterations=15,
+            # ls_iterations=100,
             nconmax=contact_max,
             njmax=contact_max * 2,
-            cone="elliptic",
-            impratio=50.0,
-            use_mujoco_contacts=False,
+            # cone="elliptic",
+            # impratio=50.0,
+            # use_mujoco_contacts=False,
         )
 
         self.state_0 = self._model.state()
         self.state_1 = self._model.state()
         self.control = self._model.control()
-        self.contacts = self.collision_pipeline.contacts()
+        self.contacts = newton.Contacts(self.solver.get_max_contact_count(), 0)
+        # self.contacts = self.collision_pipeline.contacts()
         wp.copy(wp.zeros(9), self._model.joint_q[:9])
         self.viewer.set_model(self._model)
+        self.viewer.set_camera(
+            pos=wp.vec3(2.0, 0.0, 1.0),
+            pitch=-10.0,
+            yaw=-180.0,
+        )
         self.capture()
 
     def capture(self):
@@ -66,12 +72,14 @@ class NewtonScene(BaseScene):
             # self.graph_ik = capture.graph
 
     def _control_step(self):
-        self.collision_pipeline.collide(self.state_0, self.contacts)
+        # self.collision_pipeline.collide(self.state_0, self.contacts)
         for _ in range(self.sim_substeps):
             self.state_0.clear_forces()
             self.viewer.apply_forces(self.state_0)
+            # self.collision_pipeline.collide(self.state_0, self.contacts)
             self.solver.step(self.state_0, self.state_1, self.control, self.contacts, self.sim_dt)
             self.state_0, self.state_1 = self.state_1, self.state_0
+        self.solver.update_contacts(self.contacts, self.state_0)
 
     def step(self, action):
         if self.graph:

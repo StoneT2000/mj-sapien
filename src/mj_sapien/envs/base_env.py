@@ -92,6 +92,7 @@ class BaseEnv:
 
     def step(self, action):
         self.scene.step(action)
+        return self.get_obs(), 0, False, False, dict()
 
     def render(self):
         """
