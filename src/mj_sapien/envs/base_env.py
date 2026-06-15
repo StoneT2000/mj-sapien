@@ -2,12 +2,14 @@ from dataclasses import dataclass
 from typing import Any, NamedTuple
 
 import torch
-
+import warp as wp
+from mj_sapien.agents.base_agent import BaseAgent
+from mj_sapien.sim.scene import BaseScene
+from mj_sapien.sim.scene.newton import NewtonScene, NewtonSceneConfig
 from mj_sapien.sim import backend
 
-
 @dataclass(frozen=True)
-class BaseEnvCfg:
+class BaseEnvConfig:
     num_envs: int = 1
     sim_backend: backend.SimBackend = "mujoco_cpu"
     render_backend: backend.RenderBackend = "mujoco_warp"
@@ -18,22 +20,37 @@ class ResetOptions(NamedTuple):
 
 
 class BaseEnv:
-    def __init__(self, cfg: BaseEnvCfg):
+
+    scene: BaseScene
+    agent: BaseAgent
+
+    def __init__(self, cfg: BaseEnvConfig):
         self.cfg = cfg
+        self._reconfigure()
+        self.reset()
 
     ### Scene management and instantiation functions ###
     def _load_scene(self):
         """
         Loads all scene rigid bodies, articulations etc.
         """
-        pass
+        raise NotImplementedError()
+
+    def _load_agent(self) -> BaseAgent:
+        """
+        Loads the interactive agent/robot.
+        """
+        raise NotImplementedError()
 
     def _reconfigure(self):
         """
         Reconfigures the environment. This is essentially equivalent to deleting the environment
-        and calling all relevant functions such as `_load_scene`
+        and calling all relevant functions such as `_load_scene` and `_load_agent`.
         """
-        pass
+        self.scene = NewtonScene(cfg=NewtonSceneConfig())
+        self.agent = self._load_agent()
+        self._load_scene()
+        self.scene.finalize()
 
     def _initialize_episode(self, env_idx: torch.Tensor):
         """
@@ -62,17 +79,26 @@ class BaseEnv:
         if options is not None:
             if options["reconfigure"]:
                 self._reconfigure()
+        self.agent.reset()
 
         return self.get_obs(), self.evaluate()
 
-    def step(self):
-        pass
+
+    def _step_action(self, action: torch.Tensor):
+        """
+        Step the environment forward by one control step given an action.
+        """
+
+
+    def step(self, action):
+        self.scene.step(action)
+        return self.get_obs(), 0, False, False, dict()
 
     def render(self):
         """
         Render the current state of the environment
         """
-        pass
+        self.scene.render()
 
     ### Sim state management functions ###
     def get_state_dict(self) -> dict[str, Any]:
