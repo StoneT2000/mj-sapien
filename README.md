@@ -1,6 +1,8 @@
 # mj-sapien
 - currently just a personal investigation into mj-warp, sapien, and simulation infra/framework design ideas
 
+edit: all of this is going into maniskill 4 now: https://github.com/orgs/mani-skill/projects/1/
+
 ## planning and fixes
 - Viser based viewer with option to still use mujoco/sapien default viewers
   - viewer "extensions/mods" for various workflows
